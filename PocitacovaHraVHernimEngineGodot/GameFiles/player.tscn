@@ -1,0 +1,84 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://KinematicBody2D.gd" type="Script" id=1]
+[ext_resource path="res://Textures/Player/player-idle/Frame001.png" type="Texture" id=2]
+[ext_resource path="res://Textures/Player/player-idle/Frame002.png" type="Texture" id=3]
+[ext_resource path="res://Textures/Player/player-idle/Frame003.png" type="Texture" id=4]
+[ext_resource path="res://Textures/Player/player-idle/Frame004.png" type="Texture" id=5]
+[ext_resource path="res://Textures/Player/player-run/Frame001.png" type="Texture" id=6]
+[ext_resource path="res://Textures/Player/player-run/Frame002.png" type="Texture" id=7]
+[ext_resource path="res://Textures/Player/player-run/Frame003.png" type="Texture" id=8]
+[ext_resource path="res://Textures/Player/player-run/Frame004.png" type="Texture" id=9]
+[ext_resource path="res://Textures/Player/player-run/Frame005.png" type="Texture" id=10]
+[ext_resource path="res://Textures/Player/player-run/Frame006.png" type="Texture" id=11]
+[ext_resource path="res://Textures/Player/player-death/Frame001.png" type="Texture" id=12]
+[ext_resource path="res://Textures/Player/player-death/Frame002.png" type="Texture" id=13]
+[ext_resource path="res://Textures/Player/player-attack/Frame001.png" type="Texture" id=14]
+[ext_resource path="res://Textures/Player/player-attack/Frame002.png" type="Texture" id=15]
+[ext_resource path="res://Textures/Player/player-attack/Frame003.png" type="Texture" id=16]
+[ext_resource path="res://Textures/Player/player-attack/Frame004.png" type="Texture" id=17]
+[ext_resource path="res://Textures/Player/player-attack/Frame005.png" type="Texture" id=18]
+[ext_resource path="res://Textures/Player/player-attack/Frame006.png" type="Texture" id=19]
+[ext_resource path="res://Textures/Player/player-attack/Frame007.png" type="Texture" id=20]
+[ext_resource path="res://Textures/Player/player-attack/Frame008.png" type="Texture" id=21]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "Run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "death",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "Fireball",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 7.28355, 26.995 )
+
+[node name="player" type="KinematicBody2D"]
+scale = Vector2( 0.7, 0.7 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 4.76837e-007, -1.86265e-009 )
+scale = Vector2( 2.5, 2.5 )
+frames = SubResource( 1 )
+animation = "Fireball"
+speed_scale = 0.0
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -3.0513, 7.58959 )
+scale = Vector2( 1.67904, 1.67223 )
+shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 35.5556, 45.7143 )
+offset = Vector2( 100, -85 )
+current = true
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
+smoothing_enabled = true
+smoothing_speed = 7.0
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 66.0157, -20.5144 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="animation_finished" from="Sprite" to="." method="_on_Sprite_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
